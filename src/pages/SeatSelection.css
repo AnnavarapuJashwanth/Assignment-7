@@ -1,0 +1,26 @@
+.seat {
+  width: 36px;
+  height: 36px;
+  margin: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.seat.selected {
+  background-color: #dc3545;
+  color: white;
+  font-weight: bold;
+  border: 2px solid #a61b2f;
+}
+
+.seat:hover {
+  background-color: #f0f0f0;
+}
+.seat-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}

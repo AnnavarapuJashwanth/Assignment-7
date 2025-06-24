@@ -1,0 +1,46 @@
+/* SectionDisplayer.css */
+
+.section-displayer {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.movie-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  height: 400px;
+  object-fit: cover;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
+.image-wrapper:hover img {
+  transform: scale(1.08);
+}
+
+.ribbon-tag {
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  background: crimson;
+  color: white;
+  padding: 3px 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  transform: rotate(-10deg);
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  border-radius: 3px;
+}

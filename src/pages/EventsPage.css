@@ -1,0 +1,65 @@
+/* src/pages/EventsPage.css */
+
+.events-page {
+  background: linear-gradient(180deg, #f8f9fa 0%, #eef1f5 100%);
+  min-height: 100vh;
+  padding-top: 4rem;
+}
+
+.event-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  border-radius: 10px;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.event-card img {
+  border-radius: 10px 10px 0 0;
+  object-fit: cover;
+  height: 300px;
+  width: 100%;
+}
+
+.ribbon {
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  background: crimson;
+  color: white;
+  padding: 4px 12px;
+  transform: rotate(-45deg);
+  font-size: 0.75rem;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.sticky-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+.event-details {
+  background: #fff;
+}
+
+@media (max-width: 768px) {
+  .event-card img {
+    height: 220px;
+  }
+}
+@media (max-width: 576px) {
+  .event-card img {
+    height: 180px;
+  }
+}

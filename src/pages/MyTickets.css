@@ -1,0 +1,120 @@
+.my-tickets h3 {
+  text-align: center;
+  font-weight: bold;
+}
+
+.ticket-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.ticket-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.ticket-card .card-body {
+  padding: 1.5rem;
+}
+
+.ticket-card .card-title {
+  color: #e50914;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.ticket-card .card-text,
+.ticket-card p {
+  font-size: 0.95rem;
+  color: #333;
+  margin: 0.25rem 0;
+}
+
+.ticket-card .fw-bold {
+  color: #000;
+  font-size: 1rem;
+}
+
+.ticket-card .text-muted {
+  font-size: 0.75rem;
+}
+
+.filter-row .form-control,
+.filter-row .form-select {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.filter-row .form-control:focus,
+.filter-row .form-select:focus {
+  border-color: #e50914;
+  box-shadow: 0 0 0 0.15rem rgba(229, 9, 20, 0.25);
+}
+
+.filter-row .btn {
+  background-color: #e50914;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+/* 🔴 Play-specific style */
+.play-style {
+  background: linear-gradient(to bottom right, #fff2f2, #ffe0e0);
+  border-left: 5px solid #dc3545;
+}
+
+/* 🔵 Event-specific style */
+.event-style {
+  background: linear-gradient(to bottom right, #f0f7ff, #dceeff);
+  border-left: 5px solid #007bff;
+}
+
+/* 🎬 Movie-specific style */
+.movie-style {
+  background: linear-gradient(to bottom right, #f3fff3, #ddffdd);
+  border-left: 5px solid #28a745;
+}
+
+/* 🧾 QR Code Styling */
+.card-body .qr-wrapper {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-body .qr-wrapper canvas {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 4px;
+  background: #fff;
+}
+
+/* 🔄 Add subtle animation */
+.ticket-card {
+  transition: all 0.3s ease;
+}
+/* 🎬 Movie ticket style */
+.movie-style {
+  background: linear-gradient(to bottom right, #f0f9ff, #e0f7ff);
+  border-left: 5px solid #0d6efd;
+}
+
+/* 🎉 Event ticket style */
+.event-style {
+  background: linear-gradient(to bottom right, #fff8e1, #ffe9b3);
+  border-left: 5px solid #ffc107;
+}
+
+/* 🧾 Hover effect for all ticket cards */
+.ticket-card:hover {
+  transform: scale(1.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+

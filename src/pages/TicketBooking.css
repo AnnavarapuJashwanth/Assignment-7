@@ -1,0 +1,25 @@
+.date-tabs {
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.date-tabs::-webkit-scrollbar {
+  display: none;
+}
+.date-tab {
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+.date-tab.active {
+  background-color: #d63384;
+  color: white;
+  border-color: #d63384;
+}
+.theatre-card {
+  background-color: #ffffff;
+  border-left: 5px solid #d63384;
+}
+.theatre-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

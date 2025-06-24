@@ -1,0 +1,25 @@
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+.carousel-img {
+  height: 800px;
+  width: 100%;
+  object-fit:cover;
+}
+
+.host-box, .service-box {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f2f8ff;
+}
+
+.bg-light-pink {
+  background-color: #ffe5ec;
+}
+
+.hover-zoom:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+button.btn-danger.animate__pulse {
+  animation-duration: 2s;
+}

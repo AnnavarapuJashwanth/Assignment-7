@@ -1,0 +1,15 @@
+.city-tile:hover img {
+  transform: scale(1.3);
+  transition: transform 0.3s ease;
+}
+
+.city-tile:hover {
+  background-color: #f8f9fa;
+}
+
+.city-selected {
+  background-color: #0d6efd !important;
+  color: white !important;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}

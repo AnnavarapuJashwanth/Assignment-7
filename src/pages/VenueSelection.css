@@ -1,0 +1,21 @@
+/* src/pages/VenueSelection.css */
+.venue-selection {
+  background: linear-gradient(to bottom right, #f9f9ff, #e0eafc);
+  border-radius: 1rem;
+}
+
+.venue-selection .accordion-button {
+  font-weight: 600;
+  background-color: #f8f9fa;
+}
+
+.venue-selection button.active {
+  background-color: #dc3545;
+  color: white;
+  border-color: #dc3545;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);
+}
+
+.venue-selection button:hover {
+  opacity: 0.9;
+}

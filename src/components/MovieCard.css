@@ -1,0 +1,68 @@
+.movie-carousel-wrapper {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+}
+
+/* Carousel image styling */
+.carousel-item img {
+  height: 400px;
+  object-fit: fill; /* You requested fill — maintains full image coverage */
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Caption box positioning */
+.carousel-caption {
+  bottom: 20px;
+}
+
+/* Caption text styling */
+.carousel-caption h5 {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+/* Prev and next arrow icons */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  padding: 18px;
+  background-size: 100% 100%;
+}
+
+/* Adjust overall clickable area of arrows */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Make carousel responsive on smaller screens */
+@media (max-width: 768px) {
+  .carousel-item img {
+    height: 250px;
+    border-radius: 8px;
+  }
+
+  .carousel-caption h5 {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    padding: 12px;
+  }
+}

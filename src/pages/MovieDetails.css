@@ -1,0 +1,183 @@
+.movie-details {
+  animation: fadeIn 0.8s ease-in-out;
+  padding-top: 70px; /* prevent content from hiding under sticky header */
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #e50914, #b81d24, #e50914);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerText 3s linear infinite;
+  font-weight: bold;
+}
+
+.movie-details-page {
+  animation: fadeIn 0.8s ease-in-out;
+  padding-top: 70px;
+  position: relative;
+}
+
+.movie-hero-section {
+  position: relative;
+  min-height: 60vh;
+}
+
+.movie-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.4) 70%);
+  z-index: 1;
+}
+
+.poster-img {
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.movie-meta p, .movie-meta span, .movie-meta h1 {
+  color: #fff;
+}
+
+.movie-meta .btn-light {
+  background: white;
+  color: #000;
+  transition: 0.3s;
+}
+
+.movie-meta .btn-light:hover {
+  background: #e50914;
+  color: #fff;
+}
+.cast-image {
+  width: 120px;
+  height: 130px;
+  object-fit: cover; /* ensures the image fills the circle without distortion */
+}
+.crew-image {
+  width: 120px;
+  height: 130px;
+  object-fit: cover; /* ensures the image fills the circle without distortion */
+}
+
+.sticky-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1050;
+  background-color: #111;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  transform: translateY(-100%);
+  animation: slideDown 0.5s forwards;
+}
+
+.sticky-header .btn {
+  transition: all 0.3s ease;
+}
+
+.sticky-header .btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #e50914;
+}
+
+/* Fade-in animation for movie content */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide-down for sticky header */
+@keyframes slideDown {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Shimmer animation for title gradient */
+@keyframes shimmerText {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+/* MovieDetails.css */
+.movie-hero-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.rating-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rating-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+  z-index: 1060;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+.modal-content {
+  max-width: 400px;
+  width: 90%;
+}
+
+.recommendation-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.recommendation-img {
+  height: 350px;
+  width:250px;
+  object-fit:fill;
+  border-radius: 15px;
+}
+
+.recommendation-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}

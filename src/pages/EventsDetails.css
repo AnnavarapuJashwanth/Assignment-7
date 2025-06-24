@@ -1,0 +1,59 @@
+/* src/pages/EventsDetails.css */
+.event-details {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.event-details img {
+  border-radius: 12px;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.event-details img:hover {
+  transform: scale(1.02);
+}
+
+.event-details h2 {
+  font-weight: 700;
+}
+
+.sticky-top {
+  top: 80px;
+  z-index: 10;
+}
+
+.booking-panel {
+  border: 1px solid #e2e2e2;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.booking-panel:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  transform: scale(1.01);
+}
+
+.book-now-btn {
+  background: #e71a0f;
+  border: none;
+  color: white;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  margin-top: 15px;
+}
+
+.book-now-btn:hover {
+  background: #c3120a;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

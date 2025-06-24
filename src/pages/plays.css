@@ -1,0 +1,20 @@
+.play-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.play-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+.artist-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.facilities {
+  font-weight: 500;
+  color: #555;
+}
