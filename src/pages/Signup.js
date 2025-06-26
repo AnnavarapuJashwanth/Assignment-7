@@ -2,63 +2,66 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
-  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     mobile: '',
-    otp: '',
+    email: '',
     password: '',
   });
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleNext = () => {
-    if (step === 1 && formData.firstName && formData.lastName && formData.mobile) {
-      setStep(2);
-    } else if (step === 2 && formData.otp.length === 6) {
-      setStep(3);
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    users.push(formData);
-    localStorage.setItem('users', JSON.stringify(users));
-    alert('Signup Successful!');
-    navigate('/signin');
+
+    const userId = 'user-' + Date.now(); // ✅ Generate a simple unique ID
+
+    try {
+      const response = await fetch('http://localhost:8000/api/signup/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, userId }), // ✅ Send to backend
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert('Signup Successful!');
+
+        // ✅ Store loggedInUser for local session use
+        const loggedInUser = {
+          firstName: formData.first_name,
+          lastName: formData.last_name,
+          email: formData.email,
+          mobile: formData.mobile,
+          userId: userId,
+        };
+        localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+
+        navigate('/signin');
+      } else {
+        alert('Signup Failed: ' + JSON.stringify(data));
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
+      alert('Something went wrong!');
+    }
   };
 
   return (
     <div className="container mt-5" style={{ maxWidth: '400px' }}>
       <h3 className="text-center">Sign Up</h3>
       <form onSubmit={handleSubmit}>
-        {step === 1 && (
-          <>
-            <input type="text" name="firstName" placeholder="First Name" className="form-control my-2" onChange={handleChange} required />
-            <input type="text" name="lastName" placeholder="Last Name" className="form-control my-2" onChange={handleChange} required />
-            <input type="text" name="mobile" placeholder="Mobile Number" className="form-control my-2" onChange={handleChange} required />
-            <button type="button" className="btn btn-primary w-100 mt-2" onClick={handleNext}>Send OTP</button>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <input type="text" name="otp" placeholder="Enter 6-digit OTP" className="form-control my-2" onChange={handleChange} required />
-            <button type="button" className="btn btn-primary w-100 mt-2" onClick={handleNext}>Verify OTP</button>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <input type="password" name="password" placeholder="Create Password" className="form-control my-2" onChange={handleChange} required />
-            <button type="submit" className="btn btn-success w-100 mt-2">Sign Up</button>
-          </>
-        )}
+        <input type="text" name="first_name" placeholder="First Name" className="form-control my-2" onChange={handleChange} required />
+        <input type="text" name="last_name" placeholder="Last Name" className="form-control my-2" onChange={handleChange} required />
+        <input type="text" name="mobile" placeholder="Mobile Number" className="form-control my-2" onChange={handleChange} required />
+        <input type="email" name="email" placeholder="Email" className="form-control my-2" onChange={handleChange} required />
+        <input type="password" name="password" placeholder="Password" className="form-control my-2" onChange={handleChange} required />
+        <button type="submit" className="btn btn-success w-100 mt-2">Sign Up</button>
       </form>
     </div>
   );

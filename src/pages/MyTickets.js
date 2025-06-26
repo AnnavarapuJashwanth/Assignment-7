@@ -11,45 +11,27 @@ function MyTickets() {
   const [filter, setFilter] = useState({ theatre: '', type: 'all' });
   const ticketRefs = useRef([]);
 
-useEffect(() => {
-  const user = JSON.parse(localStorage.getItem('loggedInUser'));
-  const allBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'))?.user;
+    if (!user?.userId) return;
 
-  const filtered = allBookings.filter(b => {
-    const userNameMatch =
-      b.userName?.toLowerCase() === user?.firstName?.toLowerCase();
-    const userIdMatch = b.userId === user?.userId;
-    return userNameMatch || userIdMatch;
-  });
-
-  setBookings(filtered);
-}, []);
-
-
-  const handleCancel = (index) => {
-    const updated = [...bookings];
-    updated.splice(index, 1);
-    setBookings(updated);
-
-    const user = JSON.parse(localStorage.getItem('loggedInUser'));
-    const all = JSON.parse(localStorage.getItem('bookings') || '[]');
-    const userNamesToMatch = [
-      user?.firstName,
-      user?.lastName,
-      `${user?.firstName} ${user?.lastName}`,
-    ].filter(Boolean);
-
-    const filtered = all.filter((b, i) =>
-      (!userNamesToMatch.includes(b.userName) && b.userId !== user?.userId) || i !== index
-    );
-
-    localStorage.setItem('bookings', JSON.stringify(filtered));
-    toast.success('Ticket cancelled successfully!');
-  };
+    fetch(`http://localhost:8000/api/bookings/?user=${user.userId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setBookings(data);
+        } else {
+          toast.error("Invalid bookings data received");
+        }
+      })
+      .catch(err => {
+        toast.error("Failed to load bookings");
+        console.error(err);
+      });
+  }, []);
 
   const downloadPDF = (ticket) => {
     const doc = new jsPDF();
-
     doc.setFontSize(16);
     doc.text("🎟️ Ticket Confirmation", 20, 20);
 
@@ -58,13 +40,14 @@ useEffect(() => {
       doc.text(`Play: ${ticket.eventName}`, 20, 30);
       doc.text(`Venue: ${ticket.venue}`, 20, 40);
       doc.text(`Date: ${ticket.date}`, 20, 50);
-      doc.text(`Time: ${ticket.time || '6:00 PM'}`, 20, 60);
+      doc.text(`Time: ${ticket.time}`, 20, 60);
       doc.text(`Seat Type: ${ticket.ticketType}`, 20, 70);
     } else if (ticket.eventId) {
       doc.text(`Event: ${ticket.eventName}`, 20, 30);
       doc.text(`Venue: ${ticket.venue}`, 20, 40);
       doc.text(`Date: ${ticket.date}`, 20, 50);
-      doc.text(`Time: ${ticket.time || '6:00 PM'}`, 20, 60);
+      doc.text(`Time: ${ticket.time}`, 20, 60);
+      doc.text(`Ticket Type: ${ticket.ticketType}`, 20, 70);
     } else {
       doc.text(`Theatre: ${ticket.theatreId}`, 20, 30);
       doc.text(`Date: ${ticket.date}`, 20, 40);
@@ -72,10 +55,9 @@ useEffect(() => {
     }
 
     doc.text(`GST: Rs. ${ticket.gst}`, 20, 80);
-    doc.text(`Total Paid: Rs. ${ticket.grandTotal}`, 20, 90);
+    doc.text(`Total Paid: Rs. ${ticket.total || ticket.grandTotal}`, 20, 90);
     doc.text(`Booked by: ${ticket.userName}`, 20, 100);
     doc.save(`ticket_${ticket.timestamp}.pdf`);
-
     toast.success("PDF downloaded!");
   };
 
@@ -88,13 +70,12 @@ useEffect(() => {
     link.download = `ticket_${Date.now()}.png`;
     link.href = canvas.toDataURL();
     link.click();
-
     toast.success("Image downloaded!");
   };
 
   const filteredBookings = bookings.filter(ticket => {
     const isMovie = !ticket.eventId;
-    const isEvent = !!ticket.eventId;
+    const isEvent = !!ticket.eventId && ticket.category !== 'play';
     const isPlay = ticket.category === 'play';
 
     const matchesType =
@@ -166,50 +147,42 @@ useEffect(() => {
                         <h5 className="card-title">🎭 {ticket.eventName}</h5>
                         <p>📍 Venue: {ticket.venue}</p>
                         <p>📅 Date: {ticket.date}</p>
-                        <p>🕒 Time: {ticket.time || '6:00 PM'}</p>
+                        <p>🕒 Time: {ticket.time}</p>
                         <p>🎟️ Type: {ticket.ticketType}</p>
                         <div className="my-2 text-center">
                           <QRCodeCanvas
-                            value={`Play Ticket: ${ticket.eventName} - ${ticket.date}`}
+                            value={`Play: ${ticket.eventName} - ${ticket.date}`}
                             size={96}
-                            bgColor="#ffffff"
-                            fgColor="#000000"
-                            includeMargin={true}
                           />
                         </div>
                       </>
                     ) : ticket.eventId ? (
                       <>
-                        <h5 className="card-title">{ticket.eventName || 'Event Booking'}</h5>
+                        <h5 className="card-title">🎫 {ticket.eventName}</h5>
                         <p>📍 Venue: {ticket.venue}</p>
                         <p>📅 Date: {ticket.date}</p>
-                        <p>🕒 Time: {ticket.time || '6:00 PM'}</p>
+                        <p>🕒 Time: {ticket.time}</p>
                         <p>🎟️ Type: {ticket.ticketType}</p>
                       </>
                     ) : (
                       <>
-                        <h5 className="card-title">{ticket.theatreId}</h5>
+                        <h5 className="card-title">🎬 {ticket.theatreId}</h5>
                         <p>📅 Date: {ticket.date}</p>
                         <p>💺 Seats: {ticket.qty} × {ticket.seatType}</p>
                       </>
                     )}
 
-                    <p className="card-text">🧾 GST: Rs. {ticket.gst}</p>
-                    <h6 className="fw-bold">Total Paid: Rs. {ticket.grandTotal}</h6>
+                    <p>🧾 GST: ₹{ticket.gst}</p>
+                    <h6 className="fw-bold">Total: ₹{ticket.total || ticket.grandTotal}</h6>
                     <p className="small text-muted">Booked by: {ticket.userName}</p>
 
                     <div className="d-flex justify-content-between mt-3">
-                      <button className="btn btn-sm btn-outline-danger" onClick={() => handleCancel(index)}>
-                        Cancel
+                      <button className="btn btn-sm btn-outline-primary" onClick={() => downloadPDF(ticket)}>
+                        Download PDF
                       </button>
-                      <div className="btn-group">
-                        <button className="btn btn-sm btn-outline-primary" onClick={() => downloadPDF(ticket)}>
-                          PDF
-                        </button>
-                        <button className="btn btn-sm btn-outline-secondary" onClick={() => downloadImage(index)}>
-                          Image
-                        </button>
-                      </div>
+                      <button className="btn btn-sm btn-outline-secondary" onClick={() => downloadImage(index)}>
+                        Download Image
+                      </button>
                     </div>
                   </div>
                 </div>

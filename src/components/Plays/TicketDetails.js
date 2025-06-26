@@ -8,8 +8,9 @@ export default function TicketDetails() {
   const [mobile, setMobile] = useState('');
   const navigate = useNavigate();
 
+  // Fake play ticket data
   const play = {
-    id: 1,
+    id: 'play123',
     eventName: 'Jar Tar Chi Goshta',
     venue: 'Balgandharva Rang Mandir',
     date: '2025-06-22',
@@ -17,49 +18,72 @@ export default function TicketDetails() {
     price: 300,
     ticketType: 'General',
     qty: 1,
+    seatType: 'Standard' // 👈 ADDING THIS
   };
 
-  const gst = play.price * 0.18;
-  const total = play.price + gst;
+  const gst = Math.round(play.price * 0.18);
+  const grandTotal = play.price + gst;
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!name.trim() || !mobile.trim()) {
       toast.error('Please enter both name and mobile.');
       return;
     }
-    if (!/^\d{10}$/.test(mobile)) {
+
+    if (!/^[0-9]{10}$/.test(mobile)) {
       toast.error('Please enter a valid 10-digit mobile number.');
       return;
     }
 
-   const loggedIn = JSON.parse(localStorage.getItem('loggedInUser'));
+    const loggedUser = JSON.parse(localStorage.getItem('loggedInUser')) || {};
+    const user = loggedUser.user || {};
 
-const ticket = {
-  ...play,
-  userName: loggedIn?.firstName || name,
-  userMobile: mobile,
-  gst: gst.toFixed(2),
-  grandTotal: total.toFixed(2),
-  timestamp: Date.now(),
-  category: 'play',
-  eventId: play.id,
-  userId: loggedIn?.userId || '',
-};
+    const booking = {
+      eventId: play.id,
+      eventName: play.eventName,
+      venue: play.venue,
+      date: play.date,
+      time: play.time,
+      qty: play.qty,
+      ticketType: play.ticketType,
+      seatType: play.seatType, // ✅ FIXED MISSING FIELD
+      price: play.price,
+      gst,
+      total: play.price,
+      grandTotal,
+      timestamp: new Date().toISOString(),
+      category: 'play',
+      mobileNumber: mobile,
+      user: user.userId || null
+    };
 
+    try {
+      const response = await fetch("http://localhost:8000/api/bookings/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(booking)
+      });
 
-    const stored = JSON.parse(localStorage.getItem('bookings') || '[]');
-    localStorage.setItem('bookings', JSON.stringify([...stored, ticket]));
+      if (!response.ok) {
+        const err = await response.json();
+        console.error("Backend Error:", err);
+        throw new Error('Failed to book play ticket');
+      }
 
-    toast.success('Ticket booked!');
-    setTimeout(() => {
-      navigate('/confirmation');
-    }, 1200);
+      toast.success('🎭 Play ticket booked!');
+      setTimeout(() => navigate('/'), 1000);
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to store play ticket in backend.');
+    }
   };
 
   return (
     <div className="container my-5">
       <ToastContainer position="top-right" autoClose={2000} />
-      <h3 className="mb-4">🎟️ Ticket Details</h3>
+      <h3 className="mb-4">🎟️ Book Play Ticket</h3>
 
       <div className="mb-3">
         <label className="form-label">Name</label>
@@ -86,9 +110,10 @@ const ticket = {
         <p><strong>Venue:</strong> {play.venue}</p>
         <p><strong>Date & Time:</strong> {play.date} at {play.time}</p>
         <p><strong>Ticket Type:</strong> {play.ticketType}</p>
+        <p><strong>Seat Type:</strong> {play.seatType}</p>
         <p><strong>Ticket Price:</strong> ₹{play.price}</p>
-        <p><strong>GST (18%):</strong> ₹{gst.toFixed(2)}</p>
-        <h5>Total: ₹{total.toFixed(2)}</h5>
+        <p><strong>GST (18%):</strong> ₹{gst}</p>
+        <h5>Total: ₹{grandTotal}</h5>
       </div>
 
       <button className="btn btn-success w-100" onClick={handleConfirm}>
